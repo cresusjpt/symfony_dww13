@@ -1,42 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
+{% block title %}Nos Produits!
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 
-	{% for flashSuccess in app.flashes('success') %}
-		<div class="alert alert-success" role="alert">{{ flashSuccess }}</div>
-	{% endfor %}
-
-	<div class="example-wrapper">
-		<h1>Hello
-			{{ controller_name }}! ✅</h1>
-
-		This friendly message is coming from:
-		<ul>
-			<li>Your controller at
-				<code>
-					<a href="{{ '/Users/jeanpaultossou/perfect/dwwm13/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a>
-				</code>
-			</li>
-			<li>Your template at
-				<code>
-					<a href="{{ '/Users/jeanpaultossou/perfect/dwwm13/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a>
-				</code>
-			</li>
-		</ul>
+		{% for item in products %}
+			<div class="col">
+				<div class="card mb-4 rounded-3 shadow-sm">
+					<div class="card-header py-3">
+						<h4 class="my-0 fw-normal">{{item.name}}</h4>
+					</div>
+					<div class="card-body">
+						<h1 class="card-title pricing-card-title">{{item.price}}<small class="text-muted fw-light">€</small>
+						</h1>
+						<div>
+							{{item.description}}
+						</div>
+						{% if is_granted("ROLE_USER") %}
+							<a href="{{path('addpanier', {'id': item.id} )}}" class="w-100 btn btn-lg btn-outline-primary">Ajouter au panier</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endfor %}
 	</div>
 {% endblock %}

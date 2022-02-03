@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PanierController!
+{% endblock %}
+
+{% block body %}
+	<section class="jumbotron text-center">
+		<div class="container">
+			<h1 class="jumbotron-heading">E-COMMERCE PANIER</h1>
+		</div>
+	</section>
+	<div class="container mb-4">
+		<div class="row">
+			<div class="col-12">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col"></th>
+								<th scope="col">Nom produit</th>
+								<th scope="col">Prix produit</th>
+								<th scope="col" class="text-center">Quantité Commandée</th>
+								<th scope="col" class="text-right">Sous Total</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% set total = 0 %}
+							{% for detail in details %}
+								<tr>
+									<td><img src="https://dummyimage.com/50x50/55595c/fff"/>
+									</td>
+									<td>{{detail.detailProduit.name}}</td>
+									<td>{{detail.detailProduit.price}}</td>
+									<td><input class="form-control" type="number" min="1" step="1" value="{{detail.qte}}"/></td>
+									<td class="text-right">{{detail.detailProduit.price * detail.qte}}€</td>
+									<td class="text-right">
+										<a href="{{path('removecart', {'id': detail.detailProduit.id})}}" class="btn btn-sm btn-danger">
+											<i class="fa fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+								{% set total = total + (detail.detailProduit.price * detail.qte) %}
+							{% endfor %}
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>
+									<strong>Total</strong>
+								</td>
+								<td class="text-right">
+									<strong>{{total}}€</strong>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col mb-2">
+				<div class="row">
+					<div class="col-sm-12  col-md-6">
+						<a href="{{path('home')}}" class="btn btn-block btn-light">Retour aux produits</a>
+					</div>
+					<div class="col-sm-12 col-md-6 text-right">
+						<a href="{{path('stripecreate')}}" class="btn btn-lg btn-block btn-success text-uppercase">Valider</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
